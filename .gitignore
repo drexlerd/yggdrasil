@@ -1,0 +1,9 @@
+/.venv/
+/build*/
+/dependencies-build/
+/dependencies-install/
+/dist/
+/*.egg-info/
+/python/*.egg-info/
+__pycache__/
+*.py[cod]
