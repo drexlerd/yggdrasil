@@ -3,7 +3,7 @@ project(InstallOneTBB)
 
 include(ExternalProject)
 
-set(TYR_ONETBB_GIT_TAG v2022.2.0 CACHE STRING "Git tag used to build oneTBB.")
+set(YGGDRASIL_ONETBB_GIT_TAG v2022.2.0 CACHE STRING "Git tag used to build oneTBB.")
 
 message(STATUS "Dependency \"oneTBB\"...")
 
@@ -17,8 +17,8 @@ if (NOT oneTBB_FOUND)
             -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
             -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
             -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-            -DBUILD_SHARED_LIBS=${TYR_BUILD_SHARED_DEPENDENCIES}
-            -DCMAKE_INSTALL_RPATH=${TYR_DEPENDENCY_INSTALL_RPATH}
+            -DBUILD_SHARED_LIBS=${YGGDRASIL_BUILD_SHARED_DEPENDENCIES}
+            -DCMAKE_INSTALL_RPATH=${YGGDRASIL_DEPENDENCY_INSTALL_RPATH}
             -DTBB_STRICT=OFF
             -DTBB_TEST=OFF
     )
@@ -30,9 +30,9 @@ if (NOT oneTBB_FOUND)
     ExternalProject_Add(
         oneTBB
         GIT_REPOSITORY https://github.com/uxlfoundation/oneTBB.git
-        GIT_TAG ${TYR_ONETBB_GIT_TAG}
+        GIT_TAG ${YGGDRASIL_ONETBB_GIT_TAG}
         PREFIX ${CMAKE_BINARY_DIR}/oneTBB
-        STAMP_DIR ${CMAKE_BINARY_DIR}/oneTBB/stamp/${TYR_ONETBB_GIT_TAG}
+        STAMP_DIR ${CMAKE_BINARY_DIR}/oneTBB/stamp/${YGGDRASIL_ONETBB_GIT_TAG}
         UPDATE_COMMAND ""
         CMAKE_ARGS ${CMAKE_ARGS}
     )

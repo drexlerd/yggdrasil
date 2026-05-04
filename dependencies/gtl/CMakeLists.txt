@@ -3,7 +3,7 @@ project(InstallGTL)
 
 include(ExternalProject)
 
-set(LOKI_GTL_GIT_TAG dc7a24fe4b7f2f94480d954da6562c7381ace41f CACHE STRING "Git tag used to build gtl.")
+set(YGGDRASIL_GTL_GIT_TAG dc7a24fe4b7f2f94480d954da6562c7381ace41f CACHE STRING "Git tag used to build gtl.")
 
 message(STATUS "Dependency \"gtl\"...")
 
@@ -12,8 +12,8 @@ list(APPEND CMAKE_ARGS
         -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
         -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-        -DBUILD_SHARED_LIBS=${LOKI_BUILD_SHARED_DEPENDENCIES}
-        -DCMAKE_INSTALL_RPATH=${LOKI_DEPENDENCY_INSTALL_RPATH}
+        -DBUILD_SHARED_LIBS=${YGGDRASIL_BUILD_SHARED_DEPENDENCIES}
+        -DCMAKE_INSTALL_RPATH=${YGGDRASIL_DEPENDENCY_INSTALL_RPATH}
         # -DCMAKE_CXX_FLAGS="-fsanitize=address"
         # Disable extras that drag in the failing example
         -DGTL_BUILD_EXAMPLES=OFF
@@ -28,9 +28,9 @@ endforeach()
 ExternalProject_Add(
     gtl
     GIT_REPOSITORY https://github.com/greg7mdp/gtl.git
-    GIT_TAG ${LOKI_GTL_GIT_TAG}
+    GIT_TAG ${YGGDRASIL_GTL_GIT_TAG}
     PREFIX ${CMAKE_BINARY_DIR}/gtl
-    STAMP_DIR ${CMAKE_BINARY_DIR}/gtl/stamp/${LOKI_GTL_GIT_TAG}
+    STAMP_DIR ${CMAKE_BINARY_DIR}/gtl/stamp/${YGGDRASIL_GTL_GIT_TAG}
     UPDATE_COMMAND ""
     CMAKE_ARGS ${CMAKE_ARGS}
 )

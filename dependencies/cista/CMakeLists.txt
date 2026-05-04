@@ -3,11 +3,11 @@ project(InstallCista)
 
 include(ExternalProject)
 
-set(TYR_CISTA_GIT_TAG 0065e285d25797c52206a570d06ab19aa1cb1887 CACHE STRING "Git tag used to build cista.")
+set(YGGDRASIL_CISTA_GIT_TAG 0065e285d25797c52206a570d06ab19aa1cb1887 CACHE STRING "Git tag used to build cista.")
 
 message(STATUS "Dependency \"cista\"...")
 
-# Attempt to find the installed loki library
+# Attempt to find the installed cista library
 find_package(cista QUIET PATHS ${CMAKE_INSTALL_PREFIX} NO_DEFAULT_PATH)
 
 if (NOT cista_FOUND)
@@ -19,8 +19,8 @@ if (NOT cista_FOUND)
             -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
             -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
             -DCMAKE_POSITION_INDEPENDENT_CODE=ON
-            -DBUILD_SHARED_LIBS=${TYR_BUILD_SHARED_DEPENDENCIES}
-            -DCMAKE_INSTALL_RPATH=${TYR_DEPENDENCY_INSTALL_RPATH}
+            -DBUILD_SHARED_LIBS=${YGGDRASIL_BUILD_SHARED_DEPENDENCIES}
+            -DCMAKE_INSTALL_RPATH=${YGGDRASIL_DEPENDENCY_INSTALL_RPATH}
             -DCISTA_INSTALL=ON
     )
 
@@ -31,9 +31,9 @@ if (NOT cista_FOUND)
     ExternalProject_Add(
         cista
         GIT_REPOSITORY https://github.com/drexlerd/cista.git
-        GIT_TAG ${TYR_CISTA_GIT_TAG}
+        GIT_TAG ${YGGDRASIL_CISTA_GIT_TAG}
         PREFIX ${CMAKE_BINARY_DIR}/cista
-        STAMP_DIR ${CMAKE_BINARY_DIR}/cista/stamp/${TYR_CISTA_GIT_TAG}
+        STAMP_DIR ${CMAKE_BINARY_DIR}/cista/stamp/${YGGDRASIL_CISTA_GIT_TAG}
         UPDATE_COMMAND ""
         CMAKE_ARGS ${CMAKE_ARGS}
     )

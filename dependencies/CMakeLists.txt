@@ -18,8 +18,6 @@ endif()
 set(BUILD_TYPE ${CMAKE_BUILD_TYPE})
 
 option(YGGDRASIL_BUILD_SHARED_DEPENDENCIES "Build bundled dependencies as shared libraries." ON)
-set(TYR_BUILD_SHARED_DEPENDENCIES ${YGGDRASIL_BUILD_SHARED_DEPENDENCIES})
-set(LOKI_BUILD_SHARED_DEPENDENCIES ${YGGDRASIL_BUILD_SHARED_DEPENDENCIES})
 message(STATUS "Build shared dependencies: ${YGGDRASIL_BUILD_SHARED_DEPENDENCIES}")
 
 if(APPLE)
@@ -30,8 +28,6 @@ endif()
 set(CMAKE_INSTALL_RPATH "${YGGDRASIL_DEPENDENCY_INSTALL_RPATH}" CACHE STRING "Install runtime path for bundled shared dependencies.")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH OFF CACHE BOOL "Use the build-tree runtime path while building bundled dependencies.")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH OFF CACHE BOOL "Do not append absolute linked library directories to bundled dependency install runtime paths.")
-set(TYR_DEPENDENCY_INSTALL_RPATH ${YGGDRASIL_DEPENDENCY_INSTALL_RPATH})
-set(LOKI_DEPENDENCY_INSTALL_RPATH ${TYR_DEPENDENCY_INSTALL_RPATH})
 message(STATUS "Dependency install rpath: ${YGGDRASIL_DEPENDENCY_INSTALL_RPATH}")
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
@@ -43,10 +39,13 @@ endif ()
 # Add subprojects
 ##############################################################
 
+add_subdirectory(argparse)
 add_subdirectory(benchmark)
+add_subdirectory(boost)
 add_subdirectory(cista)
+add_subdirectory(fmt)
 add_subdirectory(googletest)
-add_subdirectory(loki)
+add_subdirectory(gtl)
 add_subdirectory(nanobind)
 add_subdirectory(oneTBB)
 add_subdirectory(valla)
