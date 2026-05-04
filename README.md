@@ -1,33 +1,32 @@
 # Yggdrasil
 
-`yggdrasil` packages the native dependency prefix used by the planning projects
+`pyyggdrasil` packages the native dependency prefix used by the planning projects
 in this repository family.
 
-The Python distribution name is `pyyggdrasil`; the import package is
-`yggdrasil`.
+The Python distribution name and import package are both `pyyggdrasil`.
 
 ## Use From Python
 
 Install the wheel and query the native prefix:
 
 ```python
-import yggdrasil
+import pyyggdrasil
 
-print(yggdrasil.native_prefix())
+print(pyyggdrasil.native_prefix())
 ```
 
 Downstream CMake projects can use that path as `CMAKE_PREFIX_PATH`:
 
 ```bash
 cmake -S . -B build \
-  -DCMAKE_PREFIX_PATH="$(python -c 'import yggdrasil; print(yggdrasil.native_prefix())')"
+  -DCMAKE_PREFIX_PATH="$(python -c 'import pyyggdrasil; print(pyyggdrasil.native_prefix())')"
 ```
 
 Python packages that consume this native prefix should depend on:
 
 ```toml
 dependencies = [
-    "pyyggdrasil>=0.0.1",
+    "pyyggdrasil>=0.0.2",
 ]
 ```
 

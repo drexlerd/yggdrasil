@@ -39,7 +39,7 @@ def _configure_and_install_dependencies() -> None:
 
     cmake = shutil.which("cmake")
     if cmake is None:
-        raise RuntimeError("cmake is required to build yggdrasil")
+        raise RuntimeError("cmake is required to build pyyggdrasil")
 
     YGGDRASIL_BUILD_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -122,7 +122,7 @@ def _strip_wheel_native_libraries(wheel_path: Path) -> None:
     if strip is None:
         return
 
-    with tempfile.TemporaryDirectory(prefix="yggdrasil-wheel-") as tmp:
+    with tempfile.TemporaryDirectory(prefix="pyyggdrasil-wheel-") as tmp:
         wheel_root = Path(tmp) / "wheel"
         with zipfile.ZipFile(wheel_path) as wheel:
             wheel.extractall(wheel_root)

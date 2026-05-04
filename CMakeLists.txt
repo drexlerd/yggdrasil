@@ -16,21 +16,21 @@ if(NOT EXISTS "${YGGDRASIL_NATIVE_PREFIX}")
     message(FATAL_ERROR "Native prefix does not exist: ${YGGDRASIL_NATIVE_PREFIX}")
 endif()
 
-install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/python/src/yggdrasil/__init__.py"
-        DESTINATION "yggdrasil"
-        COMPONENT yggdrasil)
+install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/python/src/pyyggdrasil/__init__.py"
+        DESTINATION "pyyggdrasil"
+        COMPONENT pyyggdrasil)
 
 foreach(native_dir IN ITEMS include lib lib64 bin nanobind)
     if(EXISTS "${YGGDRASIL_NATIVE_PREFIX}/${native_dir}")
         install(DIRECTORY "${YGGDRASIL_NATIVE_PREFIX}/${native_dir}"
-                DESTINATION "yggdrasil"
-                COMPONENT yggdrasil)
+                DESTINATION "pyyggdrasil"
+                COMPONENT pyyggdrasil)
     endif()
 endforeach()
 
 if(APPLE)
     install(CODE [[
-        set(native_lib_dir "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/yggdrasil/lib")
+        set(native_lib_dir "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pyyggdrasil/lib")
         if(EXISTS "${native_lib_dir}")
             find_program(INSTALL_NAME_TOOL_EXECUTABLE install_name_tool)
             if(INSTALL_NAME_TOOL_EXECUTABLE)
@@ -60,13 +60,13 @@ if(APPLE)
                     endif()
                 endforeach()
             else()
-                message(WARNING "install_name_tool not found; yggdrasil native libraries keep their original runtime paths")
+                message(WARNING "install_name_tool not found; pyyggdrasil native libraries keep their original runtime paths")
             endif()
         endif()
-    ]] COMPONENT yggdrasil)
+    ]] COMPONENT pyyggdrasil)
 elseif(UNIX)
     install(CODE [[
-        set(native_lib_dir "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/yggdrasil/lib")
+        set(native_lib_dir "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pyyggdrasil/lib")
         if(EXISTS "${native_lib_dir}")
             find_program(PATCHELF_EXECUTABLE patchelf)
             if(PATCHELF_EXECUTABLE)
@@ -83,10 +83,10 @@ elseif(UNIX)
                     endif()
                 endforeach()
             else()
-                message(WARNING "patchelf not found; yggdrasil native libraries keep their original runtime paths")
+                message(WARNING "patchelf not found; pyyggdrasil native libraries keep their original runtime paths")
             endif()
         endif()
-    ]] COMPONENT yggdrasil)
+    ]] COMPONENT pyyggdrasil)
 endif()
 
-add_custom_target(yggdrasil_wheel)
+add_custom_target(pyyggdrasil_wheel)

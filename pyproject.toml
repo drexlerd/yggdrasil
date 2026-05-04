@@ -2,12 +2,12 @@
 requires = [
     "scikit-build-core>=0.10",
 ]
-build-backend = "yggdrasil_build_backend"
+build-backend = "pyyggdrasil_build_backend"
 backend-path = ["python"]
 
 [project]
 name = "pyyggdrasil"
-version = "0.0.1"
+version = "0.0.2"
 description = "Native dependency provider for Dominik Drexler's planning projects"
 readme = "README.md"
 requires-python = ">=3.9"
@@ -25,9 +25,9 @@ test = [
 Homepage = "https://github.com/drexlerd/yggdrasil"
 
 [tool.scikit-build]
-build.targets = ["yggdrasil_wheel"]
+build.targets = ["pyyggdrasil_wheel"]
 cmake.build-type = "Release"
-install.components = ["yggdrasil"]
+install.components = ["pyyggdrasil"]
 wheel.packages = []
 
 [tool.scikit-build.sdist]
