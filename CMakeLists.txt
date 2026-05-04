@@ -28,4 +28,65 @@ foreach(native_dir IN ITEMS include lib lib64 bin nanobind)
     endif()
 endforeach()
 
+if(APPLE)
+    install(CODE [[
+        set(native_lib_dir "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/yggdrasil/lib")
+        if(EXISTS "${native_lib_dir}")
+            find_program(INSTALL_NAME_TOOL_EXECUTABLE install_name_tool)
+            if(INSTALL_NAME_TOOL_EXECUTABLE)
+                file(GLOB_RECURSE native_libraries LIST_DIRECTORIES false
+                    "${native_lib_dir}/*.dylib"
+                    "${native_lib_dir}/*.dylib.*")
+                foreach(native_library IN LISTS native_libraries)
+                    get_filename_component(native_library_name "${native_library}" NAME)
+                    execute_process(
+                        COMMAND "${INSTALL_NAME_TOOL_EXECUTABLE}" -id "@rpath/${native_library_name}" "${native_library}"
+                        RESULT_VARIABLE install_name_result
+                        ERROR_VARIABLE install_name_error)
+                    if(NOT install_name_result EQUAL 0)
+                        message(WARNING "Could not update install name of ${native_library}: ${install_name_error}")
+                    endif()
+
+                    execute_process(
+                        COMMAND "${INSTALL_NAME_TOOL_EXECUTABLE}" -delete_rpath "@loader_path" "${native_library}"
+                        OUTPUT_QUIET
+                        ERROR_QUIET)
+                    execute_process(
+                        COMMAND "${INSTALL_NAME_TOOL_EXECUTABLE}" -add_rpath "@loader_path" "${native_library}"
+                        RESULT_VARIABLE rpath_result
+                        ERROR_VARIABLE rpath_error)
+                    if(NOT rpath_result EQUAL 0)
+                        message(WARNING "Could not add @loader_path rpath to ${native_library}: ${rpath_error}")
+                    endif()
+                endforeach()
+            else()
+                message(WARNING "install_name_tool not found; yggdrasil native libraries keep their original runtime paths")
+            endif()
+        endif()
+    ]] COMPONENT yggdrasil)
+elseif(UNIX)
+    install(CODE [[
+        set(native_lib_dir "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/yggdrasil/lib")
+        if(EXISTS "${native_lib_dir}")
+            find_program(PATCHELF_EXECUTABLE patchelf)
+            if(PATCHELF_EXECUTABLE)
+                file(GLOB_RECURSE native_libraries LIST_DIRECTORIES false
+                    "${native_lib_dir}/*.so"
+                    "${native_lib_dir}/*.so.*")
+                foreach(native_library IN LISTS native_libraries)
+                    execute_process(
+                        COMMAND "${PATCHELF_EXECUTABLE}" --set-rpath "$ORIGIN" "${native_library}"
+                        RESULT_VARIABLE rpath_result
+                        ERROR_VARIABLE rpath_error)
+                    if(NOT rpath_result EQUAL 0)
+                        message(WARNING "Could not set $ORIGIN rpath on ${native_library}: ${rpath_error}")
+                    endif()
+                endforeach()
+            else()
+                message(WARNING "patchelf not found; yggdrasil native libraries keep their original runtime paths")
+            endif()
+        endif()
+    ]] COMPONENT yggdrasil)
+endif()
+
 add_custom_target(yggdrasil_wheel)
