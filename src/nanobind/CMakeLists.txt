@@ -17,6 +17,7 @@ find_package(nanobind QUIET PATHS ${CMAKE_INSTALL_PREFIX} NO_DEFAULT_PATH)
 if (NOT nanobind_FOUND)
     list(APPEND CMAKE_ARGS
             -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
+            -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
             -DNB_TEST=OFF
     )
 
@@ -39,4 +40,3 @@ if (NOT nanobind_FOUND)
 else()
     message(STATUS "nanobind is already installed.")
 endif()
-
