@@ -46,7 +46,7 @@ def _configure_and_install_dependencies() -> None:
     cmake_args = [
         cmake,
         "-S",
-        str(ROOT_DIR / "dependencies"),
+        str(ROOT_DIR / "src"),
         "-B",
         str(YGGDRASIL_BUILD_DIR),
         f"-DCMAKE_BUILD_TYPE={_build_type()}",

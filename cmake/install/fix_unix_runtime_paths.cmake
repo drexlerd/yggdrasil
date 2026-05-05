@@ -1,5 +1,6 @@
-set(native_lib_dir "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pyyggdrasil/lib")
-if(NOT EXISTS "${native_lib_dir}")
+file(GLOB native_lib_dirs LIST_DIRECTORIES true
+    "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/pyyggdrasil/lib*")
+if(NOT native_lib_dirs)
     return()
 endif()
 
@@ -9,9 +10,12 @@ if(NOT PATCHELF_EXECUTABLE)
     return()
 endif()
 
-file(GLOB_RECURSE native_libraries LIST_DIRECTORIES false
-    "${native_lib_dir}/*.so"
-    "${native_lib_dir}/*.so.*")
+foreach(native_lib_dir IN LISTS native_lib_dirs)
+    file(GLOB_RECURSE native_dir_libraries LIST_DIRECTORIES false
+        "${native_lib_dir}/*.so"
+        "${native_lib_dir}/*.so.*")
+    list(APPEND native_libraries ${native_dir_libraries})
+endforeach()
 
 foreach(native_library IN LISTS native_libraries)
     execute_process(

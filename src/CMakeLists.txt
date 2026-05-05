@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.21)
 
-project(yggdrasil_dependencies)
+project(yggdrasil_native_sources)
 
 include(GNUInstallDirs)
 
