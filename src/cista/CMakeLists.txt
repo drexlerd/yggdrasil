@@ -3,7 +3,7 @@ project(InstallCista)
 
 include(ExternalProject)
 
-set(YGGDRASIL_CISTA_GIT_TAG 0065e285d25797c52206a570d06ab19aa1cb1887 CACHE STRING "Git tag used to build cista.")
+set(YGGDRASIL_CISTA_GIT_TAG 7547d5b40212a8561e83a596bdfb70db9d4161c1 CACHE STRING "Git tag used to build cista.")
 
 message(STATUS "Dependency \"cista\"...")
 
