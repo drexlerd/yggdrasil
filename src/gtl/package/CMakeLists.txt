@@ -11,6 +11,9 @@ add_library(gtl::gtl ALIAS gtl)
 target_include_directories(gtl INTERFACE
     "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 
+target_compile_options(gtl INTERFACE
+    "$<$<CXX_COMPILER_ID:GNU>:-Wno-interference-size>")
+
 install(
     TARGETS gtl
     EXPORT gtlTargets)
