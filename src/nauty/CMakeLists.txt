@@ -10,7 +10,20 @@ message(STATUS "Dependency \"nauty\"...")
 find_package(Nauty QUIET PATHS ${CMAKE_INSTALL_PREFIX} NO_DEFAULT_PATH)
 
 if(NOT Nauty_FOUND)
-    message(STATUS "Preparing external project \"nauty\".")
+    if(YGGDRASIL_BUILD_SHARED_DEPENDENCIES)
+        # Nauty's makefile still expects the static archive to exist while building shared libraries.
+        # We build both artifacts here, but the installed CMake package exposes Nauty::Nauty as shared.
+        set(NAUTY_SHARED_ARGS --enable-shared --enable-static)
+        set(NAUTY_LIBRARY_TYPE SHARED)
+        set(NAUTY_LIBRARY_FILENAME "${CMAKE_SHARED_LIBRARY_PREFIX}nauty${CMAKE_SHARED_LIBRARY_SUFFIX}")
+    else()
+        set(NAUTY_SHARED_ARGS --disable-shared --enable-static)
+        set(NAUTY_LIBRARY_TYPE STATIC)
+        set(NAUTY_LIBRARY_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}nauty${CMAKE_STATIC_LIBRARY_SUFFIX}")
+    endif()
+
+    message(STATUS "Preparing external project \"nauty\" with args:")
+    message(STATUS "-- ${NAUTY_SHARED_ARGS}")
 
     # We need to build nauty for cmake support
     ExternalProject_Add(
@@ -20,7 +33,7 @@ if(NOT Nauty_FOUND)
         PREFIX ${CMAKE_BINARY_DIR}/nauty
         STAMP_DIR ${CMAKE_BINARY_DIR}/nauty/stamp/${YGGDRASIL_NAUTY_GIT_TAG}
         UPDATE_COMMAND ""
-        CONFIGURE_COMMAND ${CMAKE_COMMAND} -E chdir <SOURCE_DIR> ./configure --prefix=<INSTALL_DIR> CFLAGS=-fPIC --enable-tls --disable-shared
+        CONFIGURE_COMMAND ${CMAKE_COMMAND} -E chdir <SOURCE_DIR> ./configure --prefix=<INSTALL_DIR> CFLAGS=-fPIC --enable-tls ${NAUTY_SHARED_ARGS}
         BUILD_COMMAND ${CMAKE_COMMAND} -E chdir <SOURCE_DIR> make
         INSTALL_COMMAND ${CMAKE_COMMAND} -E chdir <SOURCE_DIR> make install
         INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
@@ -31,6 +44,8 @@ if(NOT Nauty_FOUND)
         COMMAND ${CMAKE_COMMAND}
                 -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
                 -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                -DNAUTY_LIBRARY_TYPE=${NAUTY_LIBRARY_TYPE}
+                -DNAUTY_LIBRARY_FILENAME=${NAUTY_LIBRARY_FILENAME}
                 -S ${CMAKE_CURRENT_LIST_DIR}/package
                 -B ${CMAKE_BINARY_DIR}/nauty-package
         COMMAND ${CMAKE_COMMAND}
