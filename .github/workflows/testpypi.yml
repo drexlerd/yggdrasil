@@ -79,6 +79,10 @@ jobs:
 
     if: github.repository_owner == 'planning-and-learning'
 
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - name: Download wheel artifacts
         uses: actions/download-artifact@v5
