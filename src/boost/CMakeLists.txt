@@ -8,15 +8,9 @@ string(REPLACE "." "_" YGGDRASIL_BOOST_ARCHIVE_VERSION ${YGGDRASIL_BOOST_VERSION
 
 message(STATUS "Preparing external project \"boost\":")
 
-if(YGGDRASIL_BUILD_SHARED_DEPENDENCIES)
-    set(BOOST_LINK shared)
-    set(BOOST_RUNTIME_LINK shared)
-    set(BOOST_DLL_PATH_ARGS hardcode-dll-paths=true dll-path=${YGGDRASIL_DEPENDENCY_INSTALL_RPATH})
-else()
-    set(BOOST_LINK static)
-    set(BOOST_RUNTIME_LINK static)
-    set(BOOST_DLL_PATH_ARGS)
-endif()
+set(BOOST_LINK shared)
+set(BOOST_RUNTIME_LINK shared)
+set(BOOST_DLL_PATH_ARGS hardcode-dll-paths=true dll-path=${YGGDRASIL_DEPENDENCY_INSTALL_RPATH})
 
 # We need to build boost for cmake support
 ExternalProject_Add(

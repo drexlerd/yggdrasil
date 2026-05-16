@@ -52,7 +52,6 @@ def _configure_and_install_dependencies() -> None:
         f"-DCMAKE_BUILD_TYPE={_build_type()}",
         f"-DCMAKE_INSTALL_PREFIX={_native_prefix()}",
         "-DCMAKE_INSTALL_LIBDIR=lib",
-        "-DYGGDRASIL_BUILD_SHARED_DEPENDENCIES=ON",
         f"-DPython_EXECUTABLE={sys.executable}",
     ]
 

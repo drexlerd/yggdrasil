@@ -17,8 +17,7 @@ endif()
 # Pass the build type to subdirectories
 set(BUILD_TYPE ${CMAKE_BUILD_TYPE})
 
-option(YGGDRASIL_BUILD_SHARED_DEPENDENCIES "Build bundled dependencies as shared libraries." ON)
-message(STATUS "Build shared dependencies: ${YGGDRASIL_BUILD_SHARED_DEPENDENCIES}")
+message(STATUS "Build shared dependencies: ON")
 
 if(APPLE)
     set(YGGDRASIL_DEPENDENCY_INSTALL_RPATH "@loader_path")

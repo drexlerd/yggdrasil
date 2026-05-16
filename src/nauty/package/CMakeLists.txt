@@ -5,8 +5,8 @@ project(NautyPackage VERSION 2.8.9 LANGUAGES C)
 include(CMakePackageConfigHelpers)
 include(GNUInstallDirs)
 
-set(NAUTY_LIBRARY_TYPE STATIC CACHE STRING "Imported Nauty library type.")
-set(NAUTY_LIBRARY_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}nauty${CMAKE_STATIC_LIBRARY_SUFFIX}" CACHE STRING "Installed Nauty library filename.")
+set(NAUTY_LIBRARY_TYPE SHARED CACHE STRING "Imported Nauty library type.")
+set(NAUTY_LIBRARY_FILENAME "${CMAKE_SHARED_LIBRARY_PREFIX}nauty${CMAKE_SHARED_LIBRARY_SUFFIX}" CACHE STRING "Installed Nauty library filename.")
 
 configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/NautyConfig.cmake.in"

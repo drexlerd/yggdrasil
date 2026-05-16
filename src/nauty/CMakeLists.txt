@@ -10,17 +10,11 @@ message(STATUS "Dependency \"nauty\"...")
 find_package(Nauty QUIET PATHS ${CMAKE_INSTALL_PREFIX} NO_DEFAULT_PATH)
 
 if(NOT Nauty_FOUND)
-    if(YGGDRASIL_BUILD_SHARED_DEPENDENCIES)
-        # Nauty's makefile still expects the static archive to exist while building shared libraries.
-        # We build both artifacts here, but the installed CMake package exposes Nauty::Nauty as shared.
-        set(NAUTY_SHARED_ARGS --enable-shared --enable-static)
-        set(NAUTY_LIBRARY_TYPE SHARED)
-        set(NAUTY_LIBRARY_FILENAME "${CMAKE_SHARED_LIBRARY_PREFIX}nauty${CMAKE_SHARED_LIBRARY_SUFFIX}")
-    else()
-        set(NAUTY_SHARED_ARGS --disable-shared --enable-static)
-        set(NAUTY_LIBRARY_TYPE STATIC)
-        set(NAUTY_LIBRARY_FILENAME "${CMAKE_STATIC_LIBRARY_PREFIX}nauty${CMAKE_STATIC_LIBRARY_SUFFIX}")
-    endif()
+    # Nauty's makefile still expects the static archive to exist while building shared libraries.
+    # We build both artifacts here, but the installed CMake package exposes Nauty::Nauty as shared.
+    set(NAUTY_SHARED_ARGS --enable-shared --enable-static)
+    set(NAUTY_LIBRARY_TYPE SHARED)
+    set(NAUTY_LIBRARY_FILENAME "${CMAKE_SHARED_LIBRARY_PREFIX}nauty${CMAKE_SHARED_LIBRARY_SUFFIX}")
 
     message(STATUS "Preparing external project \"nauty\" with args:")
     message(STATUS "-- ${NAUTY_SHARED_ARGS}")
